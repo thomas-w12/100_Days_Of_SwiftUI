@@ -6,15 +6,18 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private func calculateTime(input: Int?, from: Time, to: Time) -> Double? {
+    private func calculateTime(input: Double?, from: Time, to: Time) -> Double? {
         let secondsConvertTable: Dictionary<Time, Double> = [
-            .seconds: 1.0,
-            .minutes: 60.0,
-            .hours: 3600.0,
-            .days: 86_400.0
+            .seconds: 1,
+            .minutes: 60,
+            .hours: 3600,
+            .days: 86_400,
+            .week: 604_800,
+            .month: 2_629_743.83,
+            .year: 31_556_926,
         ]
         if let input = input {
-            return Double(input)*(secondsConvertTable[from]!)/(secondsConvertTable[to]!)
+            return input*(secondsConvertTable[from]!)/(secondsConvertTable[to]!)
         }
         return nil
     }
@@ -24,11 +27,15 @@ struct ContentView: View {
         case minutes = "min"
         case hours = "h"
         case days = "d"
+        case week = "w"
+        case month = "m"
+        case year = "y"
     }
     
     @State private var selectedInputTime: Time = .seconds
     @State private var selectedOutputTime: Time = .seconds
-    @State private var numericalInput: Int? = nil
+    @State private var numericalInput: Double? = nil
+    @FocusState private var inputFocus: Bool
     
     var outputString: String {
         let calculatedOutput = calculateTime(input: numericalInput, from: selectedInputTime,to: selectedOutputTime)
@@ -44,6 +51,8 @@ struct ContentView: View {
             Form {
                 Section {
                     TextField("Input your Value", value: $numericalInput, format: .number)
+                        .keyboardType(.decimalPad)
+                        .focused($inputFocus)
                 } header: {
                     Text("Your input Value")
                 }
@@ -79,6 +88,14 @@ struct ContentView: View {
                 
             }
             .navigationTitle("Time Conversion")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        inputFocus = false
+                    }
+                }
+            }
         }
         
     }
