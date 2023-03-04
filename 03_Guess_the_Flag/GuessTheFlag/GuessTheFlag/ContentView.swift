@@ -56,10 +56,12 @@ struct ContentView: View {
                             userSelection = number
                             showingScore = !showingFinalScore
                         } label: {
-                            Image(countries[number])
+                           /* Image(countries[number])
                                 .renderingMode(.original)
                                 .clipShape(RoundedRectangle(cornerRadius: 30))
                                 .shadow(radius: 5)
+                            */
+                            FlagImage(imageName: countries[number])
                         }
                     }
                 }
@@ -105,6 +107,28 @@ struct ContentView: View {
         correctAnswer = Int.random(in: 0...2)
         userScore = 0
         questionsAsked = 0
+    }
+}
+
+struct FlagImage: View {
+    private var imageName: String?
+    private var image: Image
+    var body: some View {
+        image
+            .renderingMode(.original)
+            .clipShape(RoundedRectangle(cornerRadius: 30))
+            .shadow(radius: 5)
+    }
+    
+    // Initialize Image from String
+    init(imageName: String) {
+        self.imageName = imageName
+        self.image = Image(imageName)
+    }
+    
+    // Initialize Image from Image (not required for this project, just for learning purposes
+    init (image: Image) {
+        self.image = image
     }
 }
 

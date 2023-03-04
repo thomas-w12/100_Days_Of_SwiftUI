@@ -13,9 +13,8 @@ struct ContentView: View {
             showRedText = !showRedText
         } label: {
             Text("Test")
-                .modifier(Title(font: .largeTitle))
+                .prominentTitle()
         }
-
     }
 }
 
@@ -39,5 +38,20 @@ struct Title: ViewModifier {
             .background(.blue)
             .backgroundStyle(.regularMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 5))
+    }
+}
+
+struct ProminentTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.teal)
+            .fontWeight(.bold)
+    }
+}
+
+extension View {
+    func prominentTitle() -> some View {
+        self.modifier(ProminentTitle())
     }
 }
