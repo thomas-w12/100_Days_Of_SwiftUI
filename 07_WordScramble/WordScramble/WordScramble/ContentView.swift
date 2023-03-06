@@ -9,6 +9,14 @@ struct ContentView: View {
     @State private var usedWords = [String]()
     @State private var rootWord  = ""
     @State private var newWord = ""
+    @State private var userScore = 0 {
+        didSet {
+            if userScore > highScore {
+                highScore = userScore
+            }
+        }
+    }
+    @State private var highScore = 0
     
     @State private var errorTitle = ""
     @State private var errorMessage = ""
@@ -21,8 +29,20 @@ struct ContentView: View {
                     
                     TextField("Enter your word", text: $newWord)
                         .textInputAutocapitalization(.never)
-                        
                     
+                    
+                }
+                
+                
+                Section("Current score") {
+                    Text("\(userScore)")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .fontWeight(.bold)
+                }
+                Section("High score") {
+                    Text("\(highScore)")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .fontWeight(.bold)
                 }
                 
                 Section {
@@ -43,7 +63,14 @@ struct ContentView: View {
             } message: {
                 Text(errorMessage)
             }
-
+            .toolbar {
+                Button("Get new Word") {
+                    startGame()
+                }
+                .buttonStyle(.bordered)
+                .padding()
+            }
+            
         }
         
     }
@@ -51,8 +78,14 @@ struct ContentView: View {
     
     func addNewWord() {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard answer.count > 0 else { return }
-        
+        guard answer.count > 2 else {
+            wordError(title: "Too short", message: "Please provide a word with at least 3 characters.")
+            return
+        }
+        guard answer != rootWord else {
+            wordError(title: "Not new", message: "You cannot use the provided word as answer.")
+            return
+        }
         guard isOriginal(word: answer) else {
             wordError(title: "Word already used", message: "Be more original")
             return
@@ -65,17 +98,21 @@ struct ContentView: View {
             wordError(title: "Word not recognized", message: "You can't just make them up, you know!")
             return
         }
-
-
+        
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
+        
+        updateScore(with: answer)
         
         newWord = ""
     }
     
     func startGame() {
-       if let startURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
+        userScore = 0
+        usedWords = []
+        if let startURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startURL) {
                 let allWords = startWords.components(separatedBy: "\n")
                 rootWord = allWords.randomElement() ?? "ERROR, COULD NOT GET RANDOM WORD"
@@ -120,6 +157,9 @@ struct ContentView: View {
         showingError = true
     }
     
+    func updateScore(with word: String) {
+        userScore += word.count
+    }
     
 }
 
