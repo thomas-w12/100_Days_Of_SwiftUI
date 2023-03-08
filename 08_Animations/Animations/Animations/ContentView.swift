@@ -44,8 +44,17 @@ struct ContentView: View {
                 )
         }
         .onAppear {
-            
+            withAnimation(.default.delay(0.5)) {
+                background = .red
+                background = .green
+                
+            }
+           
         }
+        
+        
+        
+        
         
         
         
@@ -56,13 +65,9 @@ struct ContentView: View {
         
     }
     
-
+    
     
 }
-
-
-
-
 
 
 

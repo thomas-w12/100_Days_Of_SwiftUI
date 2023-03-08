@@ -8,6 +8,9 @@ struct ContentView: View {
     @State private var showingScore = false
     @State private var showingFinalScore = false
     @State private var scoreTitle = ""
+    @State private var rotate = false
+    @State private var fadeToOpacity = 1.0
+    
     
     @State var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     
@@ -54,14 +57,18 @@ struct ContentView: View {
                             questionsAsked += 1
                             showingFinalScore = questionsAsked == maxAskedQuestions ? true : false
                             userSelection = number
+                            rotate.toggle()
+                            fadeToOpacity = 0.25
                             showingScore = !showingFinalScore
                         } label: {
-                           /* Image(countries[number])
-                                .renderingMode(.original)
-                                .clipShape(RoundedRectangle(cornerRadius: 30))
-                                .shadow(radius: 5)
-                            */
+
+                            
                             FlagImage(imageName: countries[number])
+                                .rotation3DEffect(rotate ? Angle(degrees: 0) : Angle(degrees: 360), axis: (x: 0, y: 1, z: 0))
+                                .animation(userSelection == number ? .interactiveSpring().speed(0.4) : nil, value: rotate)
+                                .opacity(userSelection == number ? 1.0 : fadeToOpacity)
+                                .animation(.easeInOut, value: fadeToOpacity)
+                            
                         }
                     }
                 }
@@ -84,6 +91,7 @@ struct ContentView: View {
             Button("OK") {
                 countries.shuffle()
                 correctAnswer = Int.random(in: 0...2)
+                fadeToOpacity = 1.0
             }
         } message: {
             if (userSelection != correctAnswer) {
@@ -107,6 +115,7 @@ struct ContentView: View {
         correctAnswer = Int.random(in: 0...2)
         userScore = 0
         questionsAsked = 0
+        fadeToOpacity = 1.0
     }
 }
 
