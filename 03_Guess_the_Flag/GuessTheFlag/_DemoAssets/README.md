@@ -6,4 +6,4 @@ This App is a guessing game: The user has to select the correct flag of a countr
 
 ### Screenshots
 
-![](Screenshot 1.png)
+![Screenshot 1](/Screenshot 1.png)
