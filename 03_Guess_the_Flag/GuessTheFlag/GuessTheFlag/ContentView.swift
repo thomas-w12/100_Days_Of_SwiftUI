@@ -5,11 +5,9 @@ import SwiftUI
 struct ContentView: View {
     let maxAskedQuestions = 8
     
-    @State private var showingScore = false
     @State private var showingFinalScore = false
     @State private var scoreTitle = ""
-    @State private var rotate = false
-    @State private var fadeToOpacity = 1.0
+    @State private var flagTapped = false
     
     
     @State var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
@@ -57,18 +55,24 @@ struct ContentView: View {
                             questionsAsked += 1
                             showingFinalScore = questionsAsked == maxAskedQuestions ? true : false
                             userSelection = number
-                            rotate.toggle()
-                            fadeToOpacity = 0.25
-                            showingScore = !showingFinalScore
+                            flagTapped = true
                         } label: {
-
                             
-                            FlagImage(imageName: countries[number])
-                                .rotation3DEffect(rotate ? Angle(degrees: 0) : Angle(degrees: 360), axis: (x: 0, y: 1, z: 0))
-                                .animation(userSelection == number ? .interactiveSpring().speed(0.4) : nil, value: rotate)
-                                .opacity(userSelection == number ? 1.0 : fadeToOpacity)
-                                .animation(.easeInOut, value: fadeToOpacity)
-                            
+                                FlagImage(imageName: countries[number])
+                                    .rotation3DEffect(flagTapped ? Angle(degrees: 0) : Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
+                                    .animation(userSelection == number && flagTapped ? .interactiveSpring().speed(0.4) : nil, value: flagTapped)
+                                    .opacity(flagTapped ? (userSelection == number ? 1.0 : 0.25) : 1.0)
+                                    .animation(.easeInOut, value: flagTapped)
+                                    .overlay(content: {
+                                        RoundedRectangle(cornerRadius: 30)
+                                            .foregroundColor(number == correctAnswer ? .green : .red )
+                                            .opacity(flagTapped ? 0.7 : 0)
+                                            .shadow(radius: 40)
+                                        
+                                    })
+                                    .animation(.easeIn(duration: 0.8), value: flagTapped)
+                                    .scaleEffect(flagTapped ? (number == correctAnswer ? 1.2 : 0.8) : 1.0)
+                                    .animation(.interpolatingSpring(stiffness: 150, damping: 8), value: flagTapped)
                         }
                     }
                 }
@@ -87,11 +91,11 @@ struct ContentView: View {
             }
             .padding()
         }
-        .alert(scoreTitle, isPresented: $showingScore ) {
+        .alert(scoreTitle, isPresented: $flagTapped ) {
             Button("OK") {
                 countries.shuffle()
                 correctAnswer = Int.random(in: 0...2)
-                fadeToOpacity = 1.0
+                flagTapped = false
             }
         } message: {
             if (userSelection != correctAnswer) {
@@ -102,20 +106,23 @@ struct ContentView: View {
         .alert("Game over", isPresented: $showingFinalScore) {
             Button("Restart Game") {
                 reset()
+                showingFinalScore = false
             }
         } message: {
             Text("Your final score is \(userScore) / \(questionsAsked)")
         }
         
-        
     }
     
     func reset() {
-        countries.shuffle()
+        withAnimation {
+            countries.shuffle()
+            
+        }
         correctAnswer = Int.random(in: 0...2)
         userScore = 0
         questionsAsked = 0
-        fadeToOpacity = 1.0
+        flagTapped = false
     }
 }
 
