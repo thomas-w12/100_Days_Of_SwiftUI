@@ -1,8 +1,5 @@
 //
 
-// TODO: Alert if input Int parsing fails, end game after no questions are remaining
-
-
 import SwiftUI
 
 struct GameView: View {
@@ -13,6 +10,7 @@ struct GameView: View {
     @FocusState private var textFieldIsFocused: Bool
     @State private var userInput: String = ""
     @State private var showInputError = false
+    @State private var showScore = false
     private var questions: [Int]
     
     @State private var correctAnswers: Int = 0
@@ -20,70 +18,106 @@ struct GameView: View {
     
     var body: some View {
         
-        VStack(alignment: .center) {
-            Text("What is \(multiplicationTable) * \(questions[currentQuestion])?")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            Spacer()
+        if showScore {
+            ScoreView(userScore: (correctAnswers, numberOfQuestions))
+        } else {
             
-            HStack {
+            VStack(alignment: .center) {
+                Text("What is \(multiplicationTable) * \(questions[currentQuestion])?")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                Spacer()
                 
-                TextField("Your answer", text: $userInput)
-                    .keyboardType(.numberPad)
-                    // .focused($textFieldIsFocused)
+                HStack {
                     
+                    TextField("Your answer", text: $userInput)
+                        .keyboardType(.numberPad)
+                        .focused($textFieldIsFocused)
+                    
+                    
+                    
+                }
+                .padding()
+                .overlay {
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.primary)
+                    
+                }
                 
-            }
-            .padding()
-            .overlay {
-                Capsule()
+                Spacer()
+                
+                
+                
+                Button("Next question") {
                     
-                    .stroke(.primary)
+                    guard let userNumber = Int(userInput) else {
+                        showInputError = true
+                        userInput = ""
+                        return
+                    }
                     
-            }
-            
-            Spacer()
-            
-   
-            
-            Button("Next question") {
-                if let userNumber = Int(userInput)  {
+                    
+                    
+                    
+                    
                     if multiplicationTable*questions[currentQuestion] == userNumber {
                         correctAnswers += 1
                     }
+                    userInput = ""
+                    
                     withAnimation {
-                        currentQuestion += 1
-
+                        if currentQuestion < numberOfQuestions-1 {
+                            currentQuestion += 1
+                            
+                        } else {
+                            showScore = true
+                        }
+                        
                     }
-                } else {
-                    showInputError = true
+                    
+                    
+                    
                 }
-                
-                
-                
-                
-                userInput = ""
+                .buttonStyle(.borderedProminent)
                 
             }
-            .buttonStyle(.borderedProminent)
+            .padding(50)
+            .alert("Input Error", isPresented: $showInputError) {
+                Button("OK") {
+                    showInputError = false
+                }
+            } message: {
+                Text("You have to provide a whole number!")
+            }
+            .navigationBarBackButtonHidden(true)
+            
             
         }
-        .padding(50)
-        
-        
     }
     
-        
-        
+    
+    func createRandomArray(size: Int, numberInRange: ClosedRange<Int>) -> [Int] {
+        var prev: Int = 0
+        var rand: Int = 0
+        var returnArray = [Int]()
+        for _ in 0..<size {
+            repeat {
+                rand = Int.random(in: numberInRange)
+            } while rand == prev
+            returnArray.append(rand)
+            prev = rand
+        }
+        return returnArray
+    }
+    
+    
     init(multiplicationTable: Int, numberOfQuestions: Int, userValue: Int? = nil) {
         self.multiplicationTable = multiplicationTable
         self.numberOfQuestions = numberOfQuestions
         self.questions = [Int]()
-        for _ in 0..<self.numberOfQuestions {
-            questions.append(Int.random(in: 0...12))
-        }
+        self.questions = createRandomArray(size: numberOfQuestions, numberInRange: 1...12)
         self.textFieldIsFocused = true
-
+        
     }
     
 }

@@ -12,6 +12,7 @@
 		E46EF2B329BA70BD00930E0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E46EF2B229BA70BD00930E0A /* Assets.xcassets */; };
 		E46EF2B629BA70BD00930E0A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E46EF2B529BA70BD00930E0A /* Preview Assets.xcassets */; };
 		E46EF2BD29BA755400930E0A /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46EF2BC29BA755400930E0A /* GameView.swift */; };
+		E4D9D1EA29BDFD8A0099F3A6 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D9D1E929BDFD8A0099F3A6 /* ScoreView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		E46EF2B229BA70BD00930E0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E46EF2B529BA70BD00930E0A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E46EF2BC29BA755400930E0A /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		E4D9D1E929BDFD8A0099F3A6 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				E46EF2AE29BA70BC00930E0A /* MultiplicationTablesApp.swift */,
 				E46EF2BC29BA755400930E0A /* GameView.swift */,
+				E4D9D1E929BDFD8A0099F3A6 /* ScoreView.swift */,
 				E46EF2B029BA70BC00930E0A /* ContentView.swift */,
 				E46EF2B229BA70BD00930E0A /* Assets.xcassets */,
 				E46EF2B429BA70BD00930E0A /* Preview Content */,
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E46EF2B129BA70BC00930E0A /* ContentView.swift in Sources */,
+				E4D9D1EA29BDFD8A0099F3A6 /* ScoreView.swift in Sources */,
 				E46EF2BD29BA755400930E0A /* GameView.swift in Sources */,
 				E46EF2AF29BA70BC00930E0A /* MultiplicationTablesApp.swift in Sources */,
 			);
