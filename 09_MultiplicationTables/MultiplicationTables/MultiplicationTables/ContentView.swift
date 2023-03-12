@@ -20,8 +20,6 @@ struct ContentView: View {
                     Text("Multiplicaton table")
                 }      footer: {
                     Text("Select the multiplication table you want to practice.")
-                    
-                    
                 }
                 
                 Section {
@@ -38,12 +36,6 @@ struct ContentView: View {
                 } footer: {
                     Text("Select how many questions you want to be asked.")
                 }
-                
-               
-                
-                
-                
-                
             }
             .navigationTitle("Multiplication Tables")
             .scrollDisabled(true)
@@ -53,19 +45,13 @@ struct ContentView: View {
                         GameView(multiplicationTable: multiplicationTable, numberOfQuestions: numberOfQuestions)
                     } label: {
                         Text("Start game")
-                            
+                        
                     }
                     .buttonStyle(.borderedProminent)
-
+                    
                 }
-                
-                
-                
             }
-            
         }
-        
-        
     }
 }
 

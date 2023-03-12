@@ -6,13 +6,14 @@ struct GameView: View {
     
     var multiplicationTable: Int
     var numberOfQuestions: Int
-    @State private var userValue: Int?
+    private var questions: [Int]
+    
     @FocusState private var textFieldIsFocused: Bool
+    
+    @State private var userValue: Int?
     @State private var userInput: String = ""
     @State private var showInputError = false
     @State private var showScore = false
-    private var questions: [Int]
-    
     @State private var correctAnswers: Int = 0
     @State private var currentQuestion: Int = 0
     
@@ -34,8 +35,6 @@ struct GameView: View {
                         .keyboardType(.numberPad)
                         .focused($textFieldIsFocused)
                     
-                    
-                    
                 }
                 .padding()
                 .overlay {
@@ -46,20 +45,13 @@ struct GameView: View {
                 
                 Spacer()
                 
-                
-                
-                Button("Next question") {
+                Button {
                     
                     guard let userNumber = Int(userInput) else {
                         showInputError = true
                         userInput = ""
                         return
                     }
-                    
-                    
-                    
-                    
-                    
                     if multiplicationTable*questions[currentQuestion] == userNumber {
                         correctAnswers += 1
                     }
@@ -72,11 +64,12 @@ struct GameView: View {
                         } else {
                             showScore = true
                         }
-                        
                     }
                     
-                    
-                    
+                } label: {
+                    Text(
+                        numberOfQuestions-1 > currentQuestion ? "Next question" : "Show score"
+                    )
                 }
                 .buttonStyle(.borderedProminent)
                 
@@ -90,7 +83,6 @@ struct GameView: View {
                 Text("You have to provide a whole number!")
             }
             .navigationBarBackButtonHidden(true)
-            
             
         }
     }
@@ -124,6 +116,6 @@ struct GameView: View {
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(multiplicationTable: 10, numberOfQuestions: 5)
+        GameView(multiplicationTable: 10, numberOfQuestions: 2)
     }
 }
