@@ -4,24 +4,42 @@
 import SwiftUI
 
 
-class User: ObservableObject {
-    @Published var firstName = "Bilbo"
-    @Published var lastName = "Baggins"
-}
-
 struct ContentView: View {
-    @StateObject var user = User()
-
+   
+    @State private var numbers = [Int]()
+    @State private var currentnumber = 1
     var body: some View {
-        VStack(alignment: .center, spacing: 20) {
-            Text("Your name is \(user.firstName) \(user.lastName).")
-
-            TextField("First name", text: $user.firstName)
+       
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(numbers, id: \.self) { num in
+                        Text("Row \(num)")
+                    }
+                    .onDelete { indexSet in
+                        removeRows(at: indexSet)
+                    }
+                }
                 
-            TextField("Last name", text: $user.lastName)
+                Button("add") {
+                    numbers.append(currentnumber)
+                    currentnumber += 1
+                }
+            }
+            .navigationTitle("onDelete()")
+            .toolbar {
+                EditButton()
+                    
+            }
         }
-        .padding()
+        
+       
     }
+    
+    func removeRows(at offset: IndexSet) {
+        numbers.remove(atOffsets: offset)
+    }
+        
 }
 
 struct ContentView_Previews: PreviewProvider {
