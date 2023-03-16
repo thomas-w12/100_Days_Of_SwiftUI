@@ -13,18 +13,14 @@ struct ContentView: View {
       
         NavigationView {
             List {
+                
+                                
                 ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            Text(item.type)
-                        }
-                        Spacer()
-                        Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                            .foregroundColor(item.amount > 100 ? .red : item.amount > 10 ? .orange : .green)
-                    }
+                    
+                    ItemView(item: item)
+                    
                 }
+                    
                 .onDelete { indexSet in
                     expenses.items.remove(atOffsets: indexSet)
                 }
