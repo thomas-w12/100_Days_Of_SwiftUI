@@ -14,7 +14,7 @@ struct ItemView: View {
             VStack(alignment: .leading) {
                 Text(item.name)
                     .font(.headline)
-                Text(item.type)
+                Text(item.type.rawValue)
             }
             Spacer()
             Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
@@ -27,6 +27,6 @@ struct ItemView: View {
 
 struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemView(item: ExpenseItem(name: "Test", type: "Personal", amount: 100))
+        ItemView(item: ExpenseItem(name: "Test", type: .business, amount: 100))
     }
 }

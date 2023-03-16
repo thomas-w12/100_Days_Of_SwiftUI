@@ -9,7 +9,7 @@ struct AddView: View {
     @ObservedObject var expenses: Expenses
     
     @State private var name = ""
-    @State private var type = "Personal"
+    @State private var type: ExpenseType = .personal
     @State private var amount = 0.0
     
     
@@ -22,8 +22,8 @@ struct AddView: View {
                     .autocorrectionDisabled(true)
                 
                 Picker("Type", selection: $type) {
-                    ForEach(types, id: \.self) {
-                        Text($0)
+                    ForEach(ExpenseType.allCases, id: \.self) {
+                        Text($0.rawValue)
                     }
                 }
                 

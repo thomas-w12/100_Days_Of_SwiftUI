@@ -14,16 +14,42 @@ struct ContentView: View {
         NavigationView {
             List {
                 
-                                
-                ForEach(expenses.items) { item in
-                    
-                    ItemView(item: item)
-                    
+                Section {
+                    ForEach(expenses.items) { item in
+                        
+                        if item.type == .personal {
+                            ItemView(item: item)
+
+                        }
+                        
+                    }
+                        
+                    .onDelete { indexSet in
+                        expenses.items.remove(atOffsets: indexSet)
+                    }
+                } header: {
+                    Text("Personal")
                 }
-                    
-                .onDelete { indexSet in
-                    expenses.items.remove(atOffsets: indexSet)
+                
+                
+                Section {
+                    ForEach(expenses.items) { item in
+                        
+                        if item.type == .business {
+                            ItemView(item: item)
+
+                        }
+                        
+                    }
+                        
+                    .onDelete { indexSet in
+                        expenses.items.remove(atOffsets: indexSet)
+                    }
+                } header: {
+                    Text("Business")
                 }
+                
+                
                 
             }
             .navigationTitle("iExpense")
