@@ -22,6 +22,7 @@ struct ContentView: View {
                         }
                         Spacer()
                         Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                            .foregroundColor(item.amount > 100 ? .red : item.amount > 10 ? .orange : .green)
                     }
                 }
                 .onDelete { indexSet in
