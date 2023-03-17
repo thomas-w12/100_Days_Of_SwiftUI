@@ -6,6 +6,7 @@ import Foundation
 enum ExpenseType: String, Codable, CaseIterable {
     case personal = "Personal"
     case business = "Business"
+    case donation = "Donation"
 }
 
 struct ExpenseItem: Identifiable, Codable {
