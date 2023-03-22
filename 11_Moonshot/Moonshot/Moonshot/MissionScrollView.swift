@@ -24,6 +24,7 @@ struct MissionScrollView: View {
                                     RoundedRectangle(cornerRadius: 15)
                                         .strokeBorder(.white, lineWidth: 1)
                                 }
+                            
                         }
                         
                         VStack(alignment: .leading) {
@@ -40,11 +41,12 @@ struct MissionScrollView: View {
                 }
             }
             .padding(.horizontal)
+        }
     }
 }
 
-struct MissionScrollView_Previews: PreviewProvider {
-    static var previews: some View {
-        MissionScrollView()
-    }
-}
+//struct MissionScrollView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MissionScrollView()
+//    }
+//}
