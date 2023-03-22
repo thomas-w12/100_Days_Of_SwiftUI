@@ -8,3 +8,8 @@ struct Astronaut: Codable, Identifiable {
     let name: String
     let description: String
 }
+
+struct CrewMember {
+    let role: String
+    let astronaut: Astronaut
+}

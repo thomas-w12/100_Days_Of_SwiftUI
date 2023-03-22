@@ -4,10 +4,7 @@
 import SwiftUI
 
 struct MissionView: View {
-    struct CrewMember {
-        let role: String
-        let astronaut: Astronaut
-    }
+    
     
     let crew: [CrewMember]
     let mission: Mission
@@ -20,10 +17,13 @@ struct MissionView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: geo.size.width * 0.6)
-                        .padding(.top)
+                        .padding(.vertical)
                     
+                   
+                        Text(mission.launchDate?.formatted(date: .complete, time: .omitted) ?? "N/A")
+                      
                     
-                    
+                        
                     VStack(alignment: .leading) {
                         
                         Rectangle()
@@ -108,7 +108,7 @@ struct MissionView_Previews: PreviewProvider {
     static let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
     
     static var previews: some View {
-        MissionView(mission: Self.missions[0], astronauts: astronauts)
+        MissionView(mission: Self.missions[1], astronauts: astronauts)
             .preferredColorScheme(.dark)
 
     }
